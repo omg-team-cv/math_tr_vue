@@ -14,10 +14,11 @@
 <script>
 // публичная (екпортируемая) часть модуля
   export default {
+    props:['settings'],
     data() {
       return {
-        x: mtRand(100, 200),
-        y: mtRand(100, 200)
+        x: mtRand(this.settings.from, this.settings.to),
+        y: mtRand(this.settings.from, this.settings.to)
       }
     },
     computed: {
@@ -27,8 +28,8 @@
       answers() {
         let variant = [this.good]
 
-        while(variant.length < 4){
-         let randNum = mtRand(this.good - 20, this.good + 20)
+        while(variant.length < this.settings.variants){
+         let randNum = mtRand(this.good - this.settings.range, this.good + this.settings.range)
 
          if(variant.indexOf(randNum) === -1){
           variant.push(randNum)
