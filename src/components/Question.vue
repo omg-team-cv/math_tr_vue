@@ -3,9 +3,10 @@
     <h3>{{x}} + {{y}} =?</h3>
     <hr>
     <div class="buttons">
-      <button v-for="(answer, index) in answers"
+      <button @click="onAnswer(number)"
+      v-for="(number, index) in answers"
       :key="index"
-       class="btn btn-success">{{answer}} </button>
+       class="btn btn-success">{{number}} </button>
     </div>
   </div>
 </template>
@@ -20,12 +21,14 @@
       }
     },
     computed: {
+      good(){
+        return this.x + this.y
+      },
       answers() {
-        let good = this.x + this.y
-        let variant = [good]
+        let variant = [this.good]
 
         while(variant.length < 4){
-         let randNum = mtRand(good - 20, good + 20)
+         let randNum = mtRand(this.good - 20, this.good + 20)
 
          if(variant.indexOf(randNum) === -1){
           variant.push(randNum)
@@ -35,6 +38,15 @@
           // console.log(Math.random() - 0.5)
          return Math.random() - 0.5;
         })
+      }
+    },
+    methods: {
+      onAnswer(number) {
+        if(number == this.good){
+          this.$emit('success')
+        }else{
+          this.$emit('error', `${this.x} + ${this.y} = ${this.good}!`)
+        }
       }
     },
   }
@@ -53,6 +65,9 @@
 .buttons{
   display: flex;
   justify-content: space-around;
+}
+.btn{
+  margin: 20px 0;
 }
 
 </style>

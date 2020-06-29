@@ -2,10 +2,17 @@
   <div class="training">
     <h1>Hi from vue js!!!</h1>
     <hr>
-    <start-screen @onStart="onStart"
+    <start-screen 
+    @onStart="onStart"
     v-if="state == 'start'"></start-screen>
-    <question v-else-if="state == 'question'"></question>
-    <message v-else-if="state == 'message'"></message>
+    <question 
+    @error="onQuestError"
+    @success="onQuestSuccess"
+     v-else-if="state == 'question'"></question>
+    <message 
+    :type="message.type"
+    :text="message.text "
+    v-else-if="state == 'message'"></message>
     <result-screen v-else-if="state == 'result'"></result-screen>
     <div v-else>Unknown state</div>
   </div>
@@ -26,12 +33,26 @@ export default {
   },
   data() {
     return {
-      state: 'start'
+      state: 'start',
+      message: {
+        type: '',
+        text: ''
+      }
     }
   },
   methods: {
     onStart() {
       this.state = 'question'
+    },
+    onQuestSuccess(){
+      this.state = 'message'
+      this.message.text = 'Good Job!'
+      this.message.type = 'success'
+    },
+    onQuestError(msg){
+      this.state = 'message'
+      this.message.text = msg
+      this.message.type = 'warning'
     }
   },
 }
