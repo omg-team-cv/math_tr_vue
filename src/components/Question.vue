@@ -4,7 +4,7 @@
       <div class="progress-bar" :style="timeInterval"></div>
     </div>
     <h4>{{timer}} </h4>
-    <h3>{{x}} + {{y}} =?</h3>
+    <h3>{{x}} {{randOperator}} {{y}} =?</h3>
     <hr>
     <div class="buttons">
       <button @click="onAnswer(number)"
@@ -31,8 +31,24 @@
       timeInterval(){
         return {width: (this.timer / this.styleDif) * 100 + '%'}
       },
+      randOperator(){
+        let x = this.settings.operator
+        x.sort(function(){
+         return Math.random() - 0.5;
+        })        
+        return x[0]
+      },
       good(){
-        return this.x + this.y
+        let x;
+        switch(this.randOperator){
+          case "+":
+            x = this.x + this.y;
+            break;
+          case "-":
+            x = this.x - this.y
+            break;
+        }
+        return x
       },
       answers() {
         let variant = [this.good]
@@ -54,14 +70,14 @@
         if(number == this.good){
           this.$emit('success')
         }else{
-          this.$emit('error', `${this.x} + ${this.y} = ${this.good}!`)
+          this.$emit('error', `${this.x} ${this.randOperator} ${this.y} = ${this.good}!`)
         }
       },
       changeTimer(){
         if(this.timer > 0){
           this.timer--
         }else{
-          this.$emit('error', `${this.x} + ${this.y} = ${this.good}!`)
+          this.$emit('error', `${this.x} ${this.randOperator} ${this.y} = ${this.good}!`)
         }
       },
       saveStyleDiff(){
