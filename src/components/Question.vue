@@ -1,5 +1,9 @@
 <template>
   <div class="alert alert-secondary">
+        <div class="progress">
+      <div class="progress-bar" :style="timeInterval"></div>
+    </div>
+    <h4>{{timer}} </h4>
     <h3>{{x}} + {{y}} =?</h3>
     <hr>
     <div class="buttons">
@@ -18,10 +22,15 @@
     data() {
       return {
         x: mtRand(this.settings.from, this.settings.to),
-        y: mtRand(this.settings.from, this.settings.to)
+        y: mtRand(this.settings.from, this.settings.to),
+        timer: 5,
+        styleDif: null
       }
     },
     computed: {
+      timeInterval(){
+        return {width: (this.timer / this.styleDif) * 100 + '%'}
+      },
       good(){
         return this.x + this.y
       },
@@ -36,7 +45,6 @@
          }
         }
         return variant.sort(function(){
-          // console.log(Math.random() - 0.5)
          return Math.random() - 0.5;
         })
       }
@@ -48,7 +56,25 @@
         }else{
           this.$emit('error', `${this.x} + ${this.y} = ${this.good}!`)
         }
+      },
+      changeTimer(){
+        if(this.timer > 0){
+          this.timer--
+        }else{
+          this.$emit('error', `${this.x} + ${this.y} = ${this.good}!`)
+        }
+      },
+      saveStyleDiff(){
+        this.timer = this.settings.timer
+        this.styleDif = this.timer
       }
+    },
+    mounted () {
+      let self = this;
+      self.saveStyleDiff()
+      setInterval(function(){
+        self.changeTimer()
+      },1000)
     },
   }
   // Приватная часть модуля
