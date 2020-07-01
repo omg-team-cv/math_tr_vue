@@ -61,8 +61,8 @@ export default {
       levels: [
         {
           operator: ["+","-"],
-          timer: 3,
-          questMax: 2,
+          timer: 10,
+          questMax: 4,
           variants: 2,
           from: 1,
           to: 30,
@@ -71,7 +71,7 @@ export default {
         {
           operator: ["+","-"],
           timer: 10,
-          questMax: 2,
+          questMax: 8,
           variants: 4,
           from: 1,
           to: 100,
@@ -80,7 +80,7 @@ export default {
         {
           operator: ["+","-"],
           timer: 15,
-          questMax: 2,
+          questMax: 10,
           variants: 6,
           from: 1,
           to: 500,
