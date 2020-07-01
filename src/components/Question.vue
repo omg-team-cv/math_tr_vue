@@ -31,7 +31,7 @@
       timeInterval(){
         return {width: (this.timer / this.styleDif) * 100 + '%'}
       },
-      good1(){
+      good(){
         return this.x + this.y
       },
       answers() {
